@@ -1,2 +1,2 @@
-# GA_Final_Huang_Enoch
-GA Final Project
+# CG_Project_Carvalho_Igor_Huang_Enoch
+CG Project
