@@ -9,6 +9,7 @@
 //Game Architecture Final Project - Rain Simulation
 //Enoch Huang
 
+//sets the definition for all
 #define MAX_PARTICLES 1000
 #define WIDTH		1024
 #define HEIGHT		768
@@ -29,11 +30,14 @@ bool bounce = false;
 
 //floor colors
 float r = 0.0;
-float g = 0.7;
-float b = 1.0;
+float g = 0.2;
+float b = 0.5;
 float ground_points[21][21][3];
 float ground_colors[21][21][4];
 float accum = -10.0;
+
+
+
 
 //A particle
 typedef struct 
@@ -169,7 +173,6 @@ void initParticles(int i)
 void init() 
 {
 	int x, z;
-
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClearDepth(1.0);
@@ -227,21 +230,26 @@ void drawRain()
 			{
 				int zi = z - zoom + 10;
 				int xi = x + 10;
-				ground_colors[zi][xi][0] = 0.0;
-				ground_colors[zi][xi][1] = 0.50;
-				ground_colors[zi][xi][3] += 1.0;
-				if (ground_colors[zi][xi][3] > 1.0) {
-					ground_points[xi][zi][2] += 0.3;
-				}
-				if (bounce == true)
+				if (zi >= 0 && zi < 21 && xi >= 0 && xi < 21)
 				{
-					par_sys[loop].vel = par_sys[loop].vel * -1.0;
-				}
-				else {
-					par_sys[loop].life = -1.0;
+					ground_colors[zi][xi][0] = 0.0;
+					ground_colors[zi][xi][1] = 0.50;
+					ground_colors[zi][xi][3] += 1.0;
+					if (ground_colors[zi][xi][3] > 1.0) {
+						ground_points[xi][zi][2] += 0.3;
+					}
+					if (bounce == true)
+					{
+						par_sys[loop].vel = par_sys[loop].vel * -1.0;
+					}
+					else {
+						par_sys[loop].life = -1.0;
+					}
 				}
 			}
-
+			//add controls to change wind direction
+			par_sys[loop].zpos += .03f;
+			par_sys[loop].xpos += .03f;
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
 			par_sys[loop].vel += par_sys[loop].gravity;
@@ -276,28 +284,33 @@ void drawSnow()
 
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
+			par_sys[loop].zpos += .03f;
+			par_sys[loop].xpos += .03f;
 			par_sys[loop].vel += par_sys[loop].gravity;
 			// Decay
 			par_sys[loop].life -= par_sys[loop].fade;
 			//If the snow hits the ground
 			if (par_sys[loop].ypos <= -10) 
 			{
+
 				int zi = z - zoom + 10;
 				int xi = x + 10;
-				
-				ground_colors[zi][xi][0] = 1.0;
-				ground_colors[zi][xi][1] = 1.0;
-				ground_colors[zi][xi][3] += 1.0;
-				if (ground_colors[zi][xi][3] > 1.0) {
-					ground_points[xi][zi][2] -= 0.3;
-				}
-				if (bounce == false)
+				if (zi >= 0 && zi < 21 && xi >= 0 && xi < 21)
 				{
-					par_sys[loop].life = -1.0;
-				}
-				else
-				{
-					par_sys[loop].vel = par_sys[loop].vel * -1.0;
+					ground_colors[zi][xi][0] = 1.0;
+					ground_colors[zi][xi][1] = 1.0;
+					ground_colors[zi][xi][3] += 1.0;
+					if (ground_colors[zi][xi][3] > 1.0) {
+						ground_points[xi][zi][2] -= 0.3;
+					}
+					if (bounce == false)
+					{
+						par_sys[loop].life = -1.0;
+					}
+					else
+					{
+						par_sys[loop].vel = par_sys[loop].vel * -1.0;
+					}
 				}
 			}
 
@@ -352,18 +365,22 @@ void drawScene()
 		//Loop along xy plane
 		for (j = -10; j + 1 < 11; j++)
 		{
+
 			glColor3fv(ground_colors[i + 10][j + 10]);
 			glVertex3f(ground_points[j + 10][i + 10][0],
 				ground_points[j + 10][i + 10][1],
 				ground_points[j + 10][i + 10][2] + zoom);
+
 			glColor3fv(ground_colors[i + 10][j + 1 + 10]);
 			glVertex3f(ground_points[j + 1 + 10][i + 10][0],
 				ground_points[j + 1 + 10][i + 10][1],
 				ground_points[j + 1 + 10][i + 10][2] + zoom);
+
 			glColor3fv(ground_colors[i + 1 + 10][j + 1 + 10]);
 			glVertex3f(ground_points[j + 1 + 10][i + 1 + 10][0],
 				ground_points[j + 1 + 10][i + 1 + 10][1],
 				ground_points[j + 1 + 10][i + 1 + 10][2] + zoom);
+
 			glColor3fv(ground_colors[i + 1 + 10][j + 10]);
 			glVertex3f(ground_points[j + 10][i + 1 + 10][0],
 				ground_points[j + 10][i + 1 + 10][1],
@@ -454,7 +471,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowSize(WIDTH, HEIGHT);
-	glutCreateWindow("GA Final Project Enoch Huang");
+	glutCreateWindow("CG Final Project Enoch Huang, Igor Carvalho, Ben Gruber");
 	init();
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(reshape);
