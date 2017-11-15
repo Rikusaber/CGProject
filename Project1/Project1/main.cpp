@@ -248,8 +248,17 @@ void drawRain()
 				}
 			}
 			//add controls to change wind direction
-			par_sys[loop].zpos += .03f;
-			par_sys[loop].xpos += .03f;
+			//calculate wind
+
+			//let the user change this later
+			float windspeed = .01;
+
+			//the lower the particle the stronger the wind
+			float yFactor= 1 - (par_sys[loop].ypos/21);
+			yFactor = yFactor / 10;
+
+	//		par_sys[loop].zpos += windspeed+ yFactor;
+			par_sys[loop].xpos += windspeed+ yFactor;
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
 			par_sys[loop].vel += par_sys[loop].gravity;
@@ -283,9 +292,16 @@ void drawSnow()
 			glPopMatrix();
 
 			// Update pos and vel of particles as they fall, can be slower if needed
-			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
-			par_sys[loop].zpos += .03f;
-			par_sys[loop].xpos += .03f;
+			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);	
+
+			float windspeed = .01;
+
+			//the lower the particle the stronger the wind
+			float yFactor = 1 - (par_sys[loop].ypos / 21);
+			yFactor = yFactor / 30;
+
+			//		par_sys[loop].zpos += windspeed+ yFactor;
+			par_sys[loop].xpos += windspeed + yFactor;
 			par_sys[loop].vel += par_sys[loop].gravity;
 			// Decay
 			par_sys[loop].life -= par_sys[loop].fade;
@@ -300,6 +316,7 @@ void drawSnow()
 					ground_colors[zi][xi][0] = 1.0;
 					ground_colors[zi][xi][1] = 1.0;
 					ground_colors[zi][xi][3] += 1.0;
+
 					if (ground_colors[zi][xi][3] > 1.0) {
 						ground_points[xi][zi][2] -= 0.3;
 					}
