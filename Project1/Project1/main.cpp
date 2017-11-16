@@ -32,8 +32,8 @@ bool bounce = false;
 float r = 0.0;
 float g = 0.2;
 float b = 0.5;
-float ground_points[21][21][3];
-float ground_colors[21][21][4];
+float ground_points[50][50][3];
+float ground_colors[50][50][4];
 float accum = -10.0;
 
 
@@ -183,9 +183,9 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 
 	// Ground verts and colors
-	for (z = 0; z < 21; z++)
+	for (z = 0; z < 50; z++)
 	{
-		for (x = 0; x < 21; x++)
+		for (x = 0; x < 50; x++)
 		{
 			ground_points[x][z][0] = x - 10.0;
 			ground_points[x][z][1] = accum;
@@ -391,7 +391,7 @@ void drawScene()
 	for (i = -10; i + 1 < 11; i++)
 	{
 		//Loop along xy plane
-		for (j = -10; j + 1 < 11; j++)
+		for (j = -10; j + 1 < 31; j++)
 		{
 
 			glColor3fv(ground_colors[i + 10][j + 10]);
