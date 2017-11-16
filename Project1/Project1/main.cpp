@@ -40,13 +40,14 @@ float accum = -10.0;
 
 
 //A particle
-typedef struct 
+typedef struct
 {
 	// Lifespan and decay
 	bool alive;
 	float life;
 	float fade;
-				
+	float size;
+
 	float red;
 	float green;
 	float blue;
@@ -66,29 +67,31 @@ typedef struct
 // Particle system array of particles
 particles par_sys[MAX_PARTICLES];
 
-void controls(unsigned char key, int x, int y) 
+void controls(unsigned char key, int x, int y)
 {
 	//Rain
-	if (key == 'r') 
+	if (key == 'r')
 	{
 		fall = RAIN;
 		glutPostRedisplay();
 	}
 	//Snow
-	if (key == 's') 
+	if (key == 's')
 	{
 		fall = SNOW;
 		glutPostRedisplay();
 	}
 	//Slow down
-	if (key == ',') 
+	if (key == ',')
 	{
-		if (slowdown > 4.0) slowdown += 0.1;
+		if (slowdown < 4.0) slowdown += 0.1;
+		printf("%f\n", slowdown);
 	}
 	//Speed up
-	if (key == '.') 
+	if (key == '.')
 	{
 		if (slowdown > 1.0) slowdown -= 0.1;
+		printf("%f\n", slowdown);
 	}
 	//Bounce
 	if (key == 'b')
@@ -105,56 +108,57 @@ void controls(unsigned char key, int x, int y)
 	//Lower Density
 	if (key == 'o')
 	{
-			density += 1;
+		density += 1;
 	}
 	//Increase Density
 	if (key == 'p')
 	{
-		if (density >= 2) 
+		if (density >= 2)
 		{
 			density -= 1;
 		}
 	}
 	//Exit
-	if (key == 'q') 
+	if (key == 'q')
 	{
 		exit(0);
 	}
 }
 
-void cam_control(int key, int x, int y) 
+void cam_control(int key, int x, int y)
 {
-	if (key == GLUT_KEY_UP) 
+	if (key == GLUT_KEY_UP)
 	{
 		tilt -= 1.0;
 	}
-	if (key == GLUT_KEY_DOWN) 
+	if (key == GLUT_KEY_DOWN)
 	{
 		tilt += 1.0;
 	}
-	if (key == GLUT_KEY_RIGHT) 
+	if (key == GLUT_KEY_RIGHT)
 	{
 		pan += 1.0;
 	}
-	if (key == GLUT_KEY_LEFT) 
+	if (key == GLUT_KEY_LEFT)
 	{
 		pan -= 1.0;
 	}
-	if (key == GLUT_KEY_PAGE_UP) 
+	if (key == GLUT_KEY_PAGE_UP)
 	{
 		zoom += 1.0;
 	}
-	if (key == GLUT_KEY_PAGE_DOWN) 
+	if (key == GLUT_KEY_PAGE_DOWN)
 	{
 		zoom -= 1.0;
 	}
 }
 
 // Initialize the particles
-void initParticles(int i) 
+void initParticles(int i)
 {
 	par_sys[i].alive = true;
 	par_sys[i].life = 1.3;
+	par_sys[i].size = .45 + float(rand() % 100) / 100.0f;
 	par_sys[i].fade = float(rand() % 100) / 1000.0f + 0.003f;
 
 	par_sys[i].xpos = (float)(rand() % 21) - 10;
@@ -170,7 +174,7 @@ void initParticles(int i)
 }
 
 //Initialize the ground and particle system
-void init() 
+void init()
 {
 	int x, z;
 	glShadeModel(GL_SMOOTH);
@@ -179,9 +183,9 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 
 	// Ground verts and colors
-	for (z = 0; z < 21; z++) 
+	for (z = 0; z < 21; z++)
 	{
-		for (x = 0; x < 21; x++) 
+		for (x = 0; x < 21; x++)
 		{
 			ground_points[x][z][0] = x - 10.0;
 			ground_points[x][z][1] = accum;
@@ -196,37 +200,38 @@ void init()
 	}
 
 	// Initialize particles
-	for (loop = 0; loop < MAX_PARTICLES; loop++) 
+	for (loop = 0; loop < MAX_PARTICLES; loop++)
 	{
 		initParticles(loop);
 	}
 }
 
 //Rain
-void drawRain() 
+void drawRain()
 {
 	float x, y, z;
-	for (loop = 0; loop < MAX_PARTICLES; loop = loop + density) 
+	for (loop = 0; loop < MAX_PARTICLES; loop = loop + density)
 	{
 		//If there is a particle in the array
-		if (par_sys[loop].alive == true) 
+		if (par_sys[loop].alive == true)
 		{
 			x = par_sys[loop].xpos;
 			y = par_sys[loop].ypos;
 			z = par_sys[loop].zpos + zoom;
 
+
 			// Draw particles
 			glColor3f(0.5, 0.5, 1.0);
 			glBegin(GL_LINES);
 			glVertex3f(x, y, z);
-			glVertex3f(x, y + 0.5, z);
+			glVertex3f(x, y + par_sys[loop].size, z);
 			glEnd();
 
 			// Decay
 			par_sys[loop].life -= par_sys[loop].fade;
 
 			//If particle reaches floor
-			if (par_sys[loop].ypos <= -10) 
+			if (par_sys[loop].ypos <= -10)
 			{
 				int zi = z - zoom + 10;
 				int xi = x + 10;
@@ -251,20 +256,26 @@ void drawRain()
 			//calculate wind
 
 			//let the user change this later
-			float windspeed = .01;
+			float windspeed = .005;
 
 			//the lower the particle the stronger the wind
-			float yFactor= 1 - (par_sys[loop].ypos/21);
+			float yFactor = 1 - (par_sys[loop].ypos / 21);
 			yFactor = yFactor / 10;
 
-	//		par_sys[loop].zpos += windspeed+ yFactor;
-			par_sys[loop].xpos += windspeed+ yFactor;
+			//if the size of the particle >.5 then sizeFactor will be negative
+			//if the size of the particle ==.5 then sizeFactor will be 0
+			//if the size of the particle <.5 then sizeFactor will be positive
+			float sizeFactor = (-.01)*(par_sys[loop].size - .5);
+
+			float windfactor = windspeed + yFactor + sizeFactor;
+			//		par_sys[loop].zpos += windspeed+ yFactor;
+			par_sys[loop].xpos += windfactor / slowdown;
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
 			par_sys[loop].vel += par_sys[loop].gravity;
 
 			//create another particle if a particle is removed
-			if (par_sys[loop].life < 0.0) 
+			if (par_sys[loop].life < 0.0)
 			{
 				initParticles(loop);
 			}
@@ -272,13 +283,13 @@ void drawRain()
 	}
 }
 //Snow
-void drawSnow() 
+void drawSnow()
 {
 	float x, y, z;
-	for (loop = 0; loop < MAX_PARTICLES; loop = loop + density) 
+	for (loop = 0; loop < MAX_PARTICLES; loop = loop + density)
 	{
 		//If there is a particle at current position
-		if (par_sys[loop].alive == true) 
+		if (par_sys[loop].alive == true)
 		{
 			x = par_sys[loop].xpos;
 			y = par_sys[loop].ypos;
@@ -292,7 +303,7 @@ void drawSnow()
 			glPopMatrix();
 
 			// Update pos and vel of particles as they fall, can be slower if needed
-			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);	
+			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
 
 			float windspeed = .01;
 
@@ -306,7 +317,7 @@ void drawSnow()
 			// Decay
 			par_sys[loop].life -= par_sys[loop].fade;
 			//If the snow hits the ground
-			if (par_sys[loop].ypos <= -10) 
+			if (par_sys[loop].ypos <= -10)
 			{
 
 				int zi = z - zoom + 10;
@@ -332,7 +343,7 @@ void drawSnow()
 			}
 
 			//create another particle if a particle is removed
-			if (par_sys[loop].life < 0.0) 
+			if (par_sys[loop].life < 0.0)
 			{
 				initParticles(loop);
 			}
@@ -363,7 +374,7 @@ void drawText(const char *text, int length, int x, int y)
 }
 
 // Draw Particles
-void drawScene() 
+void drawScene()
 {
 	int i, j;
 	float x, y, z;
@@ -377,7 +388,7 @@ void drawScene()
 	// GROUND
 	glBegin(GL_QUADS);
 	//Loop along zy plane
-	for (i = -10; i + 1 < 11; i++) 
+	for (i = -10; i + 1 < 11; i++)
 	{
 		//Loop along xy plane
 		for (j = -10; j + 1 < 11; j++)
@@ -420,7 +431,7 @@ void drawScene()
 	drawText(text.data(), text.size(), 30, HEIGHT*.7);
 	text = "R - Rain";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7-15);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 15);
 	text = "S - Snow";
 	glColor3f(0, 1, 1);
 	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 30);
@@ -465,7 +476,7 @@ void drawScene()
 }
 
 //Resize to fit window
-void reshape(int w, int h) 
+void reshape(int w, int h)
 {
 	if (h == 0) h = 1;
 
