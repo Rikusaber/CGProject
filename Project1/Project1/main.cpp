@@ -305,43 +305,53 @@ void drawSnow()
 
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
-
-			float windspeed = .01;
+			//let the user change this later
+			float windspeed = .005;
 
 			//the lower the particle the stronger the wind
 			float yFactor = 1 - (par_sys[loop].ypos / 21);
-			yFactor = yFactor / 30;
+			yFactor = yFactor / 10;
 
-			//		par_sys[loop].zpos += windspeed+ yFactor;
-			par_sys[loop].xpos += windspeed + yFactor;
+			//if the size of the particle >.5 then sizeFactor will be negative
+			//if the size of the particle ==.5 then sizeFactor will be 0
+			//if the size of the particle <.5 then sizeFactor will be positive
+			float sizeFactor = (-.01)*(par_sys[loop].size - .5);
+
+			float windfactor = windspeed + yFactor + sizeFactor;
+			par_sys[loop].zpos += windfactor / slowdown;
+			par_sys[loop].xpos += windfactor / slowdown;
+			// Update pos and vel of particles as they fall, can be slower if needed
+			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
 			par_sys[loop].vel += par_sys[loop].gravity;
+
 			// Decay
 			par_sys[loop].life -= par_sys[loop].fade;
+
 			//If the snow hits the ground
 			if (par_sys[loop].ypos <= -10)
 			{
 
-				int zi = z - zoom + 10;
-				int xi = x + 10;
-				if (zi >= 0 && zi < 21 && xi >= 0)
-				{
-					ground_colors[zi][xi][0] = 1.0;
-					ground_colors[zi][xi][1] = 1.0;
-					ground_colors[zi][xi][3] += 1.0;
+				int zi = z - zoom + 20;
+				int xi = x + 20;
 
-					if (ground_colors[zi][xi][3] > 1.0) {
-						ground_points[xi][zi][2] -= 0.3;
-					}
-					if (bounce == false)
-					{
-						par_sys[loop].life = -1.0;
-					}
-					else
-					{
-						par_sys[loop].vel = par_sys[loop].vel * -1.0;
-					}
+				ground_colors[zi][xi][0] = 1.0;
+				ground_colors[zi][xi][1] = 1.0;
+				ground_colors[zi][xi][3] += 1.0;
+
+				if (ground_colors[zi][xi][3] > 1.0) {
+					ground_points[xi][zi][2] -= 0.3;
 				}
+				if (bounce == false)
+				{
+					par_sys[loop].life = -1.0;
+				}
+				else
+				{
+					par_sys[loop].vel = par_sys[loop].vel * -1.0;
+				}
+
 			}
+
 
 			//create another particle if a particle is removed
 			if (par_sys[loop].life < 0.0)
