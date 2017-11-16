@@ -187,8 +187,10 @@ void init()
 	{
 		for (x = 0; x < 50; x++)
 		{
+			//change the - 10.0 to move the plane along x axis
 			ground_points[x][z][0] = x - 10.0;
 			ground_points[x][z][1] = accum;
+			//change the -10.0 to move the plane along z axis
 			ground_points[x][z][2] = z - 10.0;
 
 			ground_colors[z][x][0] = r;
@@ -388,7 +390,8 @@ void drawScene()
 	// GROUND
 	glBegin(GL_QUADS);
 	//Loop along zy plane
-	for (i = -10; i + 1 < 11; i++)
+	//increase upper bound to increase size of plane
+	for (i = -10; i + 1 < 31; i++)
 	{
 		//Loop along xy plane
 		for (j = -10; j + 1 < 31; j++)
