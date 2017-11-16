@@ -188,10 +188,10 @@ void init()
 		for (x = 0; x < 50; x++)
 		{
 			//change the - 10.0 to move the plane along x axis
-			ground_points[x][z][0] = x - 10.0;
+			ground_points[x][z][0] = x - 20.0;
 			ground_points[x][z][1] = accum;
 			//change the -10.0 to move the plane along z axis
-			ground_points[x][z][2] = z - 10.0;
+			ground_points[x][z][2] = z - 20.0;
 
 			ground_colors[z][x][0] = r;
 			ground_colors[z][x][1] = g;
