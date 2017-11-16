@@ -235,7 +235,7 @@ void drawRain()
 			{
 				int zi = z - zoom + 10;
 				int xi = x + 10;
-				if (zi >= 0 && zi < 21 && xi >= 0 && xi < 21)
+				if (zi >= 0 && zi < 21 && xi >= 0)
 				{
 					ground_colors[zi][xi][0] = 0.0;
 					ground_colors[zi][xi][1] = 0.50;
@@ -299,7 +299,7 @@ void drawSnow()
 			glColor3f(1.0, 1.0, 1.0);
 			glPushMatrix();
 			glTranslatef(x, y, z);
-			glutSolidSphere(0.2, 16, 16);
+			glutSolidSphere(par_sys[loop].size / 6, 16, 16);
 			glPopMatrix();
 
 			// Update pos and vel of particles as they fall, can be slower if needed
@@ -322,7 +322,7 @@ void drawSnow()
 
 				int zi = z - zoom + 10;
 				int xi = x + 10;
-				if (zi >= 0 && zi < 21 && xi >= 0 && xi < 21)
+				if (zi >= 0 && zi < 21 && xi >= 0)
 				{
 					ground_colors[zi][xi][0] = 1.0;
 					ground_colors[zi][xi][1] = 1.0;
