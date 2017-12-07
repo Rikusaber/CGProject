@@ -1,42 +1,57 @@
 ﻿  main.cpp
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(33): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(87): warning C4305: '+=': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(93): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(160): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(161): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(173): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(191): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(194): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(215): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(238): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(239): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(246): warning C4305: '+=': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(250): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(261): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(270): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(291): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(310): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(325): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(326): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(334): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(342): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(434): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(437): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(440): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(443): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(446): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(449): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(452): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(455): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(458): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(461): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(464): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(467): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(470): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(473): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(476): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(382): warning C4101: 'z': unreferenced local variable
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(382): warning C4101: 'y': unreferenced local variable
-c:\users\huange2\documents\github\cgproject\project1\project1\main.cpp(382): warning C4101: 'x': unreferenced local variable
-  Project1.vcxproj -> C:\Users\huange2\Documents\GitHub\CGProject\Project1\Debug\Project1.exe
-  Project1.vcxproj -> C:\Users\huange2\Documents\GitHub\CGProject\Project1\Debug\Project1.pdb (Partial PDB)
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(27): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(41): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(97): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(103): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(191): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(192): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(202): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(220): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(223): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(244): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(265): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(266): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(272): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(276): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(287): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(296): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(321): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(330): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(349): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(358): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(385): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(386): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(393): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(401): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(410): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(419): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(440): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(441): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(448): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(456): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(464): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(473): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(498): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(585): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(588): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(591): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(594): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(597): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(600): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(603): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(606): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(609): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(612): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(615): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(618): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(621): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(624): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(627): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(630): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(633): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(636): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(639): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(530): warning C4101: 'z': unreferenced local variable
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(530): warning C4101: 'y': unreferenced local variable
+c:\users\turtle\documents\computer graphics\cgproject\project1\project1\main.cpp(530): warning C4101: 'x': unreferenced local variable
+  Project1.vcxproj -> C:\Users\Turtle\Documents\Computer Graphics\cgproject\Project1\Debug\Project1.exe

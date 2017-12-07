@@ -10,11 +10,13 @@
 //Enoch Huang
 
 //sets the definition for all
-#define MAX_PARTICLES 1000
-#define WIDTH		1024
-#define HEIGHT		768
+#define MAX_PARTICLES	1000
+#define MAX_VELOCITY	-150
+#define WIDTH	1024
+#define HEIGHT	768
 #define RAIN	0
 #define SNOW	1
+#define HAIL	2
 
 float slowdown = 2.0;
 float velocity = 0.0;
@@ -22,8 +24,14 @@ float zoom = -40.0;
 float pan = 0.0;
 float tilt = 0.0;
 float density = 2.0;
+float gravity = -0.8;
 int loop;
 int fall;
+bool leftWind = false;
+bool rightWind = false;
+bool noWind = true;
+float windfactor = 0.0f;
+
 
 //Bounce
 bool bounce = false;
@@ -42,10 +50,9 @@ float accum = -10.0;
 //A particle
 typedef struct
 {
-	// Lifespan and decay
+	// Lifespan
 	bool alive;
 	float life;
-	float fade;
 	float size;
 
 	float red;
@@ -59,9 +66,6 @@ typedef struct
 
 	// Y velocity
 	float vel;
-
-	// Gravity
-	float gravity;
 }particles;
 
 // Particle system array of particles
@@ -79,6 +83,12 @@ void controls(unsigned char key, int x, int y)
 	if (key == 's')
 	{
 		fall = SNOW;
+		glutPostRedisplay();
+	}
+	//Hail
+	if (key == 'h')
+	{
+		fall = HAIL;
 		glutPostRedisplay();
 	}
 	//Slow down
@@ -118,6 +128,27 @@ void controls(unsigned char key, int x, int y)
 			density -= 1;
 		}
 	}
+
+	//change wind direction
+	if (key == 'j')
+	{
+		leftWind = true;
+		rightWind = false;
+		noWind = false;
+	}
+	if (key == 'k')
+	{
+		leftWind = false;
+		rightWind = false;
+		noWind = true;
+	}
+	if (key == 'l')
+	{
+		leftWind = false;
+		rightWind = true;
+		noWind = false;
+	}
+
 	//Exit
 	if (key == 'q')
 	{
@@ -154,23 +185,21 @@ void cam_control(int key, int x, int y)
 }
 
 // Initialize the particles
-void initParticles(int i)
+void initParticles(int i, int par_velocity)
 {
 	par_sys[i].alive = true;
 	par_sys[i].life = 1.3;
 	par_sys[i].size = .45 + float(rand() % 100) / 100.0f;
-	par_sys[i].fade = float(rand() % 100) / 1000.0f + 0.003f;
 
 	par_sys[i].xpos = (float)(rand() % 21) - 10;
-	par_sys[i].ypos = 20.0;
+	par_sys[i].ypos = (float)(rand() % 31) + 20;
 	par_sys[i].zpos = (float)(rand() % 21) - 10;
 
 	par_sys[i].red = 0.5;
 	par_sys[i].green = 0.5;
 	par_sys[i].blue = 1.0;
 
-	par_sys[i].vel = velocity;
-	par_sys[i].gravity = -0.8;
+	par_sys[i].vel = par_velocity;
 }
 
 //Initialize the ground and particle system
@@ -204,7 +233,7 @@ void init()
 	// Initialize particles
 	for (loop = 0; loop < MAX_PARTICLES; loop++)
 	{
-		initParticles(loop);
+		initParticles(loop, 0);
 	}
 }
 
@@ -229,8 +258,6 @@ void drawRain()
 			glVertex3f(x, y + par_sys[loop].size, z);
 			glEnd();
 
-			// Decay
-			par_sys[loop].life -= par_sys[loop].fade;
 
 			//If particle reaches floor
 			if (par_sys[loop].ypos <= -10)
@@ -268,17 +295,30 @@ void drawRain()
 			//if the size of the particle <.5 then sizeFactor will be positive
 			float sizeFactor = (-.01)*(par_sys[loop].size - .5);
 
-			float windfactor = windspeed + yFactor + sizeFactor;
+			if (rightWind)
+			{
+				windfactor = windspeed + yFactor + sizeFactor;
+			}
+			else if (leftWind)
+			{
+				windfactor = (-1)*(windspeed + yFactor + sizeFactor);
+			}
+			else {
+				windfactor = 0.0f;
+			}
 			par_sys[loop].zpos += windfactor / slowdown;
 			par_sys[loop].xpos += windfactor / slowdown;
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
-			par_sys[loop].vel += par_sys[loop].gravity;
+			if (par_sys[loop].vel > MAX_VELOCITY - gravity) 
+			{
+				par_sys[loop].vel += gravity;
+			}
 
 			//create another particle if a particle is removed
 			if (par_sys[loop].life < 0.0)
 			{
-				initParticles(loop);
+				initParticles(loop, par_sys[loop].vel);
 			}
 		}
 	}
@@ -317,15 +357,26 @@ void drawSnow()
 			//if the size of the particle <.5 then sizeFactor will be positive
 			float sizeFactor = (-.01)*(par_sys[loop].size - .5);
 
-			float windfactor = windspeed + yFactor + sizeFactor;
+			if (rightWind)
+			{
+				windfactor = windspeed + yFactor + sizeFactor;
+			}
+			else if (leftWind)
+			{
+				windfactor = (-1)*(windspeed + yFactor + sizeFactor);
+			}
+			else {
+				windfactor = 0.0f;
+			}
+			//float windfactor = windspeed + yFactor + sizeFactor;
 			par_sys[loop].zpos += windfactor / slowdown;
 			par_sys[loop].xpos += windfactor / slowdown;
 			// Update pos and vel of particles as they fall, can be slower if needed
 			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
-			par_sys[loop].vel += par_sys[loop].gravity;
-
-			// Decay
-			par_sys[loop].life -= par_sys[loop].fade;
+			if (par_sys[loop].vel > MAX_VELOCITY - gravity)
+			{
+				par_sys[loop].vel += gravity;
+			}
 
 			//If the snow hits the ground
 			if (par_sys[loop].ypos <= -10)
@@ -356,7 +407,95 @@ void drawSnow()
 			//create another particle if a particle is removed
 			if (par_sys[loop].life < 0.0)
 			{
-				initParticles(loop);
+				initParticles(loop, par_sys[loop].vel);
+			}
+		}
+	}
+}
+//Hail
+void drawHail()
+{
+	float x, y, z;
+	for (loop = 0; loop < MAX_PARTICLES; loop = loop + density)
+	{
+		//If there is a particle in the array
+		if (par_sys[loop].alive == true)
+		{
+			x = par_sys[loop].xpos;
+			y = par_sys[loop].ypos;
+			z = par_sys[loop].zpos + zoom;
+
+
+			// Draw particles
+			glColor3f(1.0, 1.0, 1.0);
+			glPushMatrix();
+			glTranslatef(x, y, z);
+			glutSolidSphere(par_sys[loop].size / 12, 16, 16);
+			glPopMatrix();
+
+			//If the snow hits the ground
+			if (par_sys[loop].ypos <= -10)
+			{
+
+				int zi = z - zoom + 20;
+				int xi = x + 20;
+
+				ground_colors[zi][xi][0] = 1.0;
+				ground_colors[zi][xi][1] = 1.0;
+				ground_colors[zi][xi][3] += 0.0;
+
+				if (ground_colors[zi][xi][3] > 1.0) {
+					ground_points[xi][zi][2] -= 0.3;
+				}
+				if (bounce == false)
+				{
+					par_sys[loop].life = -1.0;
+				}
+				else
+				{
+					par_sys[loop].vel = par_sys[loop].vel * -1.0;
+				}
+
+			}
+			//add controls to change wind direction
+			//calculate wind
+
+			//let the user change this later
+			float windspeed = .005;
+
+			//the lower the particle the stronger the wind
+			float yFactor = 1 - (par_sys[loop].ypos / 21);
+			yFactor = yFactor / 10;
+
+			//if the size of the particle >.5 then sizeFactor will be negative
+			//if the size of the particle ==.5 then sizeFactor will be 0
+			//if the size of the particle <.5 then sizeFactor will be positive
+			float sizeFactor = (-.01)*(par_sys[loop].size - .5);
+
+			if (rightWind)
+			{
+				windfactor = windspeed + yFactor + sizeFactor;
+			}
+			else if (leftWind)
+			{
+				windfactor = (-1)*(windspeed + yFactor + sizeFactor);
+			}
+			else {
+				windfactor = 0.0f;
+			}
+			par_sys[loop].zpos += windfactor / slowdown;
+			par_sys[loop].xpos += windfactor / slowdown;
+			// Update pos and vel of particles as they fall, can be slower if needed
+			par_sys[loop].ypos += par_sys[loop].vel / (slowdown * 1000);
+			if (par_sys[loop].vel > MAX_VELOCITY - gravity)
+			{
+				par_sys[loop].vel += gravity;
+			}
+
+			//create another particle if a particle is removed
+			if (par_sys[loop].life < 0.0)
+			{
+				initParticles(loop, par_sys[loop].vel);
 			}
 		}
 	}
@@ -436,6 +575,9 @@ void drawScene()
 	else if (fall == SNOW) {
 		drawSnow();
 	}
+	else if (fall == HAIL) {
+		drawHail();
+	}
 	//Control instructions
 	std::string text;
 	text = "Controls:";
@@ -447,43 +589,54 @@ void drawScene()
 	text = "S - Snow";
 	glColor3f(0, 1, 1);
 	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 30);
-	text = "B - Bounce";
+	text = "H - Hail";
 	glColor3f(0, 1, 1);
 	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 45);
-	text = ", - Slow Down";
+	text = "B - Bounce";
 	glColor3f(0, 1, 1);
 	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 60);
-	text = ". - Speed Up";
+	text = ", - Slow Down";
 	glColor3f(0, 1, 1);
 	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 75);
+	text = ". - Speed Up";
+	glColor3f(0, 1, 1);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 90);
 	text = "O - Lower Density";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 100);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 115);
 	text = "P - Increase Density";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 115);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 130);
 	text = "RIGHT - Pan Right";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 130);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 145);
 	text = "LEFT - Pan left";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 145);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 160);
 	text = "UP - Pan up";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 160);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 175);
 	text = "DOWN - Pan Down";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 175);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 190);
 	text = "PgUp - Zoom In";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 200);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 215);
 	text = "PgDn - Zoom Out";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 215);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 230);
 	text = "Q - Quit";
 	glColor3f(0, 1, 1);
-	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 230);
-
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 245);
+	text = "J - Wind Blowing to the Left";
+	glColor3f(0, 1, 1);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 260);
+	text = "K - No Wind Blowing";
+	glColor3f(0, 1, 1);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 275);
+	text = "L - Wind Blowing to the Right";
+	glColor3f(0, 1, 1);
+	drawText(text.data(), text.size(), 30, HEIGHT*.7 - 290);
 	glutSwapBuffers();
 }
 
