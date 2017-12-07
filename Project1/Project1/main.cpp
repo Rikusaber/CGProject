@@ -260,7 +260,7 @@ void drawRain()
 
 
 			//If particle reaches floor
-			if (par_sys[loop].ypos <= -10)
+			if ((par_sys[loop].ypos <= -10) && (par_sys[loop].xpos >= -20) && (par_sys[loop].zpos >= -20))
 			{
 				int zi = z - zoom + 20;
 				int xi = x + 20;
@@ -297,11 +297,11 @@ void drawRain()
 
 			if (rightWind)
 			{
-				windfactor = windspeed + yFactor + sizeFactor;
+				windfactor = (.5)*(windspeed + yFactor + sizeFactor);
 			}
 			else if (leftWind)
 			{
-				windfactor = (-1)*(windspeed + yFactor + sizeFactor);
+				windfactor = (-.5)*(windspeed + yFactor + sizeFactor);
 			}
 			else {
 				windfactor = 0.0f;
@@ -379,7 +379,7 @@ void drawSnow()
 			}
 
 			//If the snow hits the ground
-			if (par_sys[loop].ypos <= -10)
+			if ((par_sys[loop].ypos <= -10) && (par_sys[loop].xpos >= -20) && (par_sys[loop].zpos >= -20))
 			{
 
 				int zi = z - zoom + 20;
@@ -434,7 +434,7 @@ void drawHail()
 			glPopMatrix();
 
 			//If the snow hits the ground
-			if (par_sys[loop].ypos <= -10)
+			if ((par_sys[loop].ypos <= -10) && (par_sys[loop].xpos >= -20) && (par_sys[loop].zpos >= -20))
 			{
 
 				int zi = z - zoom + 20;
