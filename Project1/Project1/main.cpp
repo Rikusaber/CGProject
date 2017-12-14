@@ -6,8 +6,8 @@
 #include <GL/gl.h>
 #include <string>
 
-//Game Architecture Final Project - Rain Simulation
-//Enoch Huang
+//Computer Graphics Final Project: Precipitation Simulation
+//Enoch Huang, Ben Gruber, Igor Carvalho
 
 //sets the definition for all
 #define MAX_PARTICLES	1000
